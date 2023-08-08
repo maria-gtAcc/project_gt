@@ -24,14 +24,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     List<PropertyInfo> properties =
         Provider.of<PropertyProvider>(context).properties;
-    PropertyInfo? selectedProperty =
-        Provider.of<PropertyProvider>(context).selectedProperty;
+    PropertyInfo selectedProperty =
+        Provider.of<PropertyProvider>(context).selectedProperty ??
+            properties.first;
 
-    if (selectedProperty == null && properties.isNotEmpty) {
-      selectedProperty = properties.first;
-      Provider.of<PropertyProvider>(context, listen: false)
-          .setSelectedProperty(selectedProperty);
-    }
     return Scaffold(
       key: _scaffoldKey,
       drawer: SideMenu(),
@@ -74,6 +70,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   items: properties.map<DropdownMenuItem<PropertyInfo>>((prop) {
                     return DropdownMenuItem<PropertyInfo>(
                       value: prop,
+                      key: ValueKey(prop.propertyId),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(16.0, 0, 24.0, 0),
                         child: Text(
@@ -196,22 +193,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
           Expanded(
             child: ListView.builder(
               itemCount: Provider.of<PropertyProvider>(context, listen: false)
-                  .getTotalAvailableProperties(selectedProperty!),
+                  .getTotalAvailableProperties(selectedProperty),
               itemBuilder: (context, index) {
                 return PropertyCarousel(
                   carouselImages:
-                      selectedProperty?.availableSpaces[index].spaceImages ??
-                          [],
-                  propertyName: selectedProperty?.propertyName ?? "",
+                      selectedProperty.availableSpaces[index].spaceImages,
+                  propertyName: selectedProperty.propertyName,
                   spaceTitle:
-                      selectedProperty?.availableSpaces[index].spaceTitle ?? "",
-                  spaceDescription: selectedProperty
-                          ?.availableSpaces[index].spaceDescription ??
-                      "",
+                      selectedProperty.availableSpaces[index].spaceTitle,
+                  spaceDescription:
+                      selectedProperty.availableSpaces[index].spaceDescription,
                   spaceRating:
-                      selectedProperty?.availableSpaces[index].spaceRating ?? 0,
+                      selectedProperty.availableSpaces[index].spaceRating,
                   spacePrice:
-                      selectedProperty?.availableSpaces[index].spacePrice ?? 0,
+                      selectedProperty.availableSpaces[index].spacePrice,
                 );
               },
             ),

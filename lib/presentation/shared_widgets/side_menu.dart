@@ -32,8 +32,14 @@ class _SideMenuState extends State<SideMenu> {
     return Drawer(
       child: ListView(padding: EdgeInsets.zero, children: [
         UserAccountsDrawerHeader(
-          accountName: Text(userName),
-          accountEmail: Text(userEmail),
+          accountName: Text(
+            userName,
+            style: TextStyle(color: Colors.black, fontSize: 18),
+          ),
+          accountEmail: Text(
+            userEmail,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+          ),
           currentAccountPicture: CircleAvatar(
             child: ClipOval(
               child: Image.network(
@@ -45,11 +51,10 @@ class _SideMenuState extends State<SideMenu> {
             ),
           ),
           decoration: BoxDecoration(
-            color: Colors.blue,
+            border:
+                Border(bottom: BorderSide(color: Colors.black12, width: 1.0)),
             image: DecorationImage(
-              fit: BoxFit.fill,
-              image: NetworkImage(
-                  'https://www.atlasandboots.com/wp-content/uploads/2019/05/ama-dablam2-most-beautiful-mountains-in-the-world.jpg'),
+              image: AssetImage('assets/images/logo_image.png'),
             ),
           ),
         ),

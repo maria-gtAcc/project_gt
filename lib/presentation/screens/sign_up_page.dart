@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_gt/presentation/shared_widgets/snackbar.dart';
 import '../../service/user_firebase.dart';
 import 'home_page_screen.dart';
 import 'login_page.dart';
@@ -24,17 +25,56 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-  Future signUp() async {
-    String firsName = _firstNameController.text;
-    String lastName = _lastNameController.text;
-    String email = _emailController.text;
-    String password = _passwordController.text;
+  Future<void> signUp() async {
+    String firstName = _firstNameController.text.trim();
+    String lastName = _lastNameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
 
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email.trim(), password: password.trim());
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      addUserData(firsName.trim(), lastName.trim(), user.uid, email.trim());
+    String errorMessage = '';
+
+    if (firstName.isEmpty || lastName.isEmpty) {
+      errorMessage = firstName.isEmpty
+          ? 'First name is required'
+          : 'Last name is required';
+    }
+
+    if (errorMessage.isNotEmpty) {
+      showCustomSnackBar(context, errorMessage);
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        addUserData(firstName, lastName, user.uid, email);
+      }
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePageScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'weak-password':
+          errorMessage = 'Password must be at least 6 characters';
+          break;
+        case 'email-already-in-use':
+          errorMessage = 'The account already exists for that email';
+          break;
+        case 'invalid-email':
+          errorMessage = 'Email incorrect';
+          break;
+        default:
+          errorMessage = 'An error occurred';
+          break;
+      }
+
+      showCustomSnackBar(context, errorMessage);
     }
   }
 
@@ -175,10 +215,6 @@ class _SignUpState extends State<SignUp> {
                         ),
                         onPressed: () {
                           signUp();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePageScreen()));
                         },
                         child: Text(
                           'SIGN UP',

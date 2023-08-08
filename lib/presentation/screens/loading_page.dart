@@ -55,7 +55,7 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Loading'),
+        child: Image.asset('assets/images/kee_logo.png', fit: BoxFit.cover),
       ),
     );
   }
