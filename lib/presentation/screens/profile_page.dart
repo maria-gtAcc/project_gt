@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../routes/app_route.dart';
+import '../../routes/navigation.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -12,8 +15,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: Image.asset('assets/images/kee_logo.png', fit: BoxFit.cover),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 100, 0),
+        child: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigation().pushReplacementNamed(AppRoutes.home);
+          },
+        ),
       ),
     );
   }

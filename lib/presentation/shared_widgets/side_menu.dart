@@ -62,9 +62,7 @@ class _SideMenuState extends State<SideMenu> {
           title: Text(
             'Profile',
             style: TextStyle(
-              color: isLoggedIn
-                  ? Colors.black
-                  : Colors.grey, // Adjust the text color
+              color: isLoggedIn ? Colors.black : Colors.grey,
             ),
           ),
           onTap: isLoggedIn
