@@ -1,10 +1,10 @@
-class User {
+class UserModel {
   String firstName;
   String lastName;
   String userId;
   String email;
 
-  User({
+  UserModel({
     required this.firstName,
     required this.lastName,
     required this.userId,

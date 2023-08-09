@@ -174,44 +174,49 @@ class _HomePageScreenState extends State<HomePageScreen> {
           ],
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 20, 0, 15),
-            child: Text(
-              'Available Spaces',
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'Monserrat',
-                fontWeight: FontWeight.w500,
-                color: Color.fromRGBO(50, 62, 72, 1),
+      body: Consumer<PropertyProvider>(
+        builder: (context, propertyProvider, child) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 20, 0, 15),
+                child: Text(
+                  'Available Spaces',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Monserrat',
+                    fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(50, 62, 72, 1),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: Provider.of<PropertyProvider>(context, listen: false)
-                  .getTotalAvailableProperties(selectedProperty),
-              itemBuilder: (context, index) {
-                return PropertyCarousel(
-                  carouselImages:
-                      selectedProperty.availableSpaces[index].spaceImages,
-                  propertyName: selectedProperty.propertyName,
-                  spaceTitle:
-                      selectedProperty.availableSpaces[index].spaceTitle,
-                  spaceDescription:
-                      selectedProperty.availableSpaces[index].spaceDescription,
-                  spaceRating:
-                      selectedProperty.availableSpaces[index].spaceRating,
-                  spacePrice:
-                      selectedProperty.availableSpaces[index].spacePrice,
-                );
-              },
-            ),
-          ),
-        ],
+              Expanded(
+                child: ListView.builder(
+                  itemCount:
+                      Provider.of<PropertyProvider>(context, listen: false)
+                          .getTotalAvailableProperties(selectedProperty),
+                  itemBuilder: (context, index) {
+                    return PropertyCarousel(
+                      carouselImages:
+                          selectedProperty.availableSpaces[index].spaceImages,
+                      propertyName: selectedProperty.propertyName,
+                      spaceTitle:
+                          selectedProperty.availableSpaces[index].spaceTitle,
+                      spaceDescription: selectedProperty
+                          .availableSpaces[index].spaceDescription,
+                      spaceRating:
+                          selectedProperty.availableSpaces[index].spaceRating,
+                      spacePrice:
+                          selectedProperty.availableSpaces[index].spacePrice,
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

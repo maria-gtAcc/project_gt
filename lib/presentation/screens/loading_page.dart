@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +11,6 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   @override
   void initState() {
     super.initState();
@@ -24,31 +20,22 @@ class _LoadingPageState extends State<LoadingPage> {
   void toHome() async {
     await Future.delayed(Duration(seconds: 2));
 
-    User? user = _auth.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePageScreen()),
-      );
+      Future.delayed(Duration(seconds: 0), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePageScreen()),
+        );
+      });
       return;
     }
-
-    DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await _firestore.collection('users').doc(user.uid).get();
-
-    if (snapshot.exists) {
-      String firstName = snapshot.data()!['first name'] ?? '';
-      String lastName = snapshot.data()!['last name'] ?? '';
-
-      Provider.of<UserProvider>(context, listen: false)
-          .setUser(firstName, lastName);
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomePageScreen()),
-    );
+    Future.delayed(Duration(seconds: 0), () {
+      Provider.of<UserProvider>(context, listen: false).getUser(user.uid);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePageScreen()));
+    });
   }
 
   @override
