@@ -58,9 +58,19 @@ class _SideMenuState extends State<SideMenu> {
           ),
         ),
         ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
-            onTap: () => Navigation().pushReplacementNamed(AppRoutes.profile)),
+          leading: Icon(Icons.person),
+          title: Text(
+            'Profile',
+            style: TextStyle(
+              color: isLoggedIn
+                  ? Colors.black
+                  : Colors.grey, // Adjust the text color
+            ),
+          ),
+          onTap: isLoggedIn
+              ? () => Navigation().pushReplacementNamed(AppRoutes.profile)
+              : null,
+        ),
         if (!isLoggedIn)
           ListTile(
               leading: Icon(Icons.login),
