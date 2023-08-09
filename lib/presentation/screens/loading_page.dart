@@ -26,10 +26,8 @@ class _LoadingPageState extends State<LoadingPage> {
       Navigation().pushReplacementNamed(AppRoutes.home);
       return;
     }
-    Future.delayed(Duration(seconds: 0), () {
-      Provider.of<UserProvider>(context, listen: false).getUser(user.uid);
-      Navigation().pushReplacementNamed(AppRoutes.home);
-    });
+    Provider.of<UserProvider>(context, listen: false).getUser(user.uid);
+    Navigation().pushReplacementNamed(AppRoutes.home);
   }
 
   @override
