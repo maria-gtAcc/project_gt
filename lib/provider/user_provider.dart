@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_gt/routes/app_route.dart';
 import '../models/users.dart';
-import '../presentation/screens/home_page_screen.dart';
 import '../presentation/shared_widgets/snackbar.dart';
+import '../routes/navigation.dart';
 import '../service/user_firebase.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -51,10 +52,8 @@ class UserProvider extends ChangeNotifier {
       User? user = FirebaseAuth.instance.currentUser;
       getUser(user!.uid);
       setLoading();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePageScreen()),
-      );
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigation().pushReplacementNamed(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       setLoading();
       if (email.isEmpty || password.isEmpty) {
@@ -103,10 +102,8 @@ class UserProvider extends ChangeNotifier {
       }
       getUser(user!.uid);
       setLoading();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePageScreen()),
-      );
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigation().pushReplacementNamed(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       setLoading();
       if (firstName.isEmpty || lastName.isEmpty) {

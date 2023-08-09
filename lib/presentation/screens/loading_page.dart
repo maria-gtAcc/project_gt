@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../provider/user_provider.dart';
-import 'home_page_screen.dart';
+import '../../routes/navigation.dart';
+import '../../routes/app_route.dart';
 
 class LoadingPage extends StatefulWidget {
   @override
@@ -23,18 +23,12 @@ class _LoadingPageState extends State<LoadingPage> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      Future.delayed(Duration(seconds: 0), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePageScreen()),
-        );
-      });
+      Navigation().pushReplacementNamed(AppRoutes.home);
       return;
     }
     Future.delayed(Duration(seconds: 0), () {
       Provider.of<UserProvider>(context, listen: false).getUser(user.uid);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePageScreen()));
+      Navigation().pushReplacementNamed(AppRoutes.home);
     });
   }
 

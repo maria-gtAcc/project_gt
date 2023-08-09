@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_gt/routes/app_route.dart';
 import 'package:provider/provider.dart';
 import '../../provider/user_provider.dart';
+import '../../routes/navigation.dart';
 import '../shared_widgets/loading_circle.dart';
-import 'login_page.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -44,7 +45,8 @@ class _SignUpState extends State<SignUp> {
                           child: IconButton(
                             icon: Icon(Icons.arrow_back),
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              Navigation()
+                                  .pushReplacementNamed(AppRoutes.logIn);
                             },
                           ),
                         ),
@@ -182,32 +184,6 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ],
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Already have an account?',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 50, 62, 72),
-                            fontFamily: 'Monserrat',
-                            fontSize: 14),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Login()));
-                        },
-                        child: Text(
-                          'LOG IN',
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 41, 123, 230),
-                              fontFamily: 'Monserrat',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),

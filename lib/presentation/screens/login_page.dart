@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_gt/presentation/shared_widgets/loading_circle.dart';
 import 'package:project_gt/provider/user_provider.dart';
 import 'package:provider/provider.dart';
-import 'sign_up_page.dart';
+import '../../routes/app_route.dart';
+import '../../routes/navigation.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -135,12 +136,8 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => SignUp()),
-                          );
-                        },
+                        onPressed: () =>
+                            Navigation().pushReplacementNamed(AppRoutes.signUp),
                         child: Text(
                           'SIGN UP',
                           style: TextStyle(

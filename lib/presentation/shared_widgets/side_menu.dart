@@ -2,9 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/user_provider.dart';
-import '../screens/home_page_screen.dart';
-import '../screens/login_page.dart';
-import '../screens/profile_page.dart';
+import '../../routes/app_route.dart';
+import '../../routes/navigation.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
@@ -59,33 +58,27 @@ class _SideMenuState extends State<SideMenu> {
           ),
         ),
         ListTile(
-          leading: Icon(Icons.person),
-          title: Text('Profile'),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
-          ),
-        ),
+            leading: Icon(Icons.person),
+            title: Text('Profile'),
+            onTap: () => Navigation().pushReplacementNamed(AppRoutes.profile)),
         if (!isLoggedIn)
           ListTile(
-            leading: Icon(Icons.login),
-            title: Text('Login'),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Login()),
-            ),
-          )
+              leading: Icon(Icons.login),
+              title: Text('Login'),
+              onTap: () {
+                Scaffold.of(context).openEndDrawer();
+                Navigation().pushReplacementNamed(AppRoutes.logIn);
+              })
         else
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Logout'),
             onTap: () {
               _auth.signOut();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => HomePageScreen()),
-                (route) => false,
-              );
+              {
+                Scaffold.of(context).openEndDrawer();
+                Navigation().pushReplacementNamed(AppRoutes.home);
+              }
             },
           ),
       ]),
